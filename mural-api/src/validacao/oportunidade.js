@@ -30,4 +30,26 @@ function validarOportunidade(req, res, next) {
     if(!TIPOS.includes(tipo)) {
         erros.push(`O tipo deve ser um destes: ${TIPOS.join(', ')}.`);
     }
+
+    if(!instituicao) {
+        erros.push("A insituição é um campo obrigatório.");
+    }
+
+    if(!MODALIDADES.includes(modalidade)) {
+        erros.push(`A modalidade deve ser uma dessas: ${MODALIDES.join(', ')}.`);
+    }
+
+    if(!prazo) {
+        erros.push("O prazo é um campo obrigatório");
+    }
+
+    // Se os erros não existirem, a lista continua vazia
+    // e é verdade a validade da Oportunidade
+    if(erros.length === 0) {
+        return next();
+    }
+
+    // Do contrario, a validade é falsa. Assim, 
+    // eu envio em json o código de erro junto com os errws.
+    return res.status(400).json({ erros });
 }
